@@ -373,7 +373,7 @@ function ProductList({ onHomeClick }) {
                     />
                     <h3 className="product-title">{plant.name}</h3>
                     <p className="product-description">{plant.description}</p>
-                    <p className="product-price">${plant.cost}</p>
+                    <p className="product-price">{plant.cost}</p>
                     <button
                       className="product-button"
                       onClick={() => {
