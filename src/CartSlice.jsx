@@ -14,15 +14,18 @@ export const CartSlice = createSlice({
       else state.items.push({ ...action.payload, quantity: 1 });
     },
     removeItem: (state, action) => {
-      state.items = state.items.filter(
-        (item) => item.name !== item.payload.name,
-      );
+      const name = action.payload;
+      const toDelete = state.items.find((item) => item.name === name);
+      if (toDelete)
+        state.items = state.items.filter((item) => item.name !== name);
     },
     updateQuantity: (state, action) => {
-      const existingItem = state.items.find(
-        (item) => item.name === action.payload.name,
-      );
-      if (existingItem) existingItem.quantity = quantity;
+      const { name, quantity } = action.payload;
+      const existingItem = state.items.find((item) => item.name === name);
+      if (existingItem) {
+        if (quantity > 0) existingItem.quantity = quantity;
+        else state.items = state.items.filter((item) => item.name !== name);
+      }
     },
   },
 });

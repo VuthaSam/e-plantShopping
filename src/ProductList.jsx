@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ProductList.css";
 import CartItem from "./CartItem";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "./CartSlice";
+import { addItem, updateQuantity } from "./CartSlice";
 
 function ProductList({ onHomeClick }) {
   const [showCart, setShowCart] = useState(false);
@@ -331,6 +331,7 @@ function ProductList({ onHomeClick }) {
             {" "}
             <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
               <h1 className="cart">
+                {" "}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 256 256"
@@ -347,10 +348,11 @@ function ProductList({ onHomeClick }) {
                     stroke="#faf9f9"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    stroke-width="2"
+                    stroke-width="10"
                     id="mainIconPathAttribute"
                   ></path>
                 </svg>
+                <p className="cart_quantity_count">{items.length}</p>
               </h1>
             </a>
           </div>
@@ -360,8 +362,8 @@ function ProductList({ onHomeClick }) {
         <div className="product-grid">
           {plantsArray.map((category, index) => (
             <div key={index}>
-              <h1>
-                <div>{category.category}</div>
+              <h1 className="plantname_heading">
+                <div className="plant_heading">{category.category}</div>
               </h1>
               <div className="product-list">
                 {category.plants.map((plant, index) => (
@@ -375,12 +377,18 @@ function ProductList({ onHomeClick }) {
                     <p className="product-description">{plant.description}</p>
                     <p className="product-price">{plant.cost}</p>
                     <button
-                      className="product-button"
+                      className={
+                        items.some((item) => item.name === plant.name)
+                          ? "product-button added-to-cart"
+                          : "product-button"
+                      }
                       onClick={() => {
                         handleAddToCart(plant);
                       }}
                     >
-                      Add to Cart
+                      {items.some((item) => item.name === plant.name)
+                        ? "Added"
+                        : "Add to Cart"}
                     </button>
                   </div>
                 ))}
